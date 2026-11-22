@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Sequence
 
 from .detectors import DLPScanner
+from .github_integration import GitHubPRClient
 from .models import ScanReport, Severity
 from .redactor import redact_text
 
@@ -87,6 +88,41 @@ def build_parser() -> argparse.ArgumentParser:
     redact_cmd.add_argument("file", help="Path to text/log file to redact.")
     redact_cmd.add_argument("-o", "--output", help="Write redacted text to file instead of stdout.")
 
+    gh_cmd = sub.add_parser(
+        "github-pr",
+        help="Fetch and audit added lines in a GitHub Pull Request via REST API.",
+    )
+    gh_cmd.add_argument("--repo", required=True, help="Target repository in 'owner/name' format.")
+    gh_cmd.add_argument("--pr", required=True, type=int, help="Pull Request number.")
+    gh_cmd.add_argument(
+        "--format",
+        choices=("table", "json", "markdown"),
+        default="table",
+        help="Output report format (default: table).",
+    )
+    gh_cmd.add_argument(
+        "--fail-on",
+        choices=("low", "medium", "high", "critical"),
+        default="low",
+        help="Minimum severity that triggers exit code 1 (default: low).",
+    )
+    gh_cmd.add_argument(
+        "--ignore",
+        action="append",
+        default=[],
+        help="Regex pattern to ignore false positives (can be passed multiple times).",
+    )
+    gh_cmd.add_argument(
+        "--comment",
+        action="store_true",
+        help="Post a masked DLP report comment back to the Pull Request if findings exist.",
+    )
+    gh_cmd.add_argument(
+        "--token",
+        default=None,
+        help="GitHub API token (defaults to GITHUB_TOKEN environment variable).",
+    )
+
     return parser
 
 
@@ -128,5 +164,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             print(redacted, end="")
         return 0
+
+    if args.command == "github-pr":
+        scanner = DLPScanner(ignore_patterns=args.ignore)
+        client = GitHubPRClient(token=args.token)
+        report = client.audit_pull_request(
+            repo=args.repo,
+            pr_number=args.pr,
+            post_comment=args.comment,
+            scanner=scanner,
+        )
+        print(FORMATTERS[args.format](report))
+        threshold = Severity(args.fail_on)
+        return 1 if report.has_findings_at_or_above(threshold) else 0
 
     return 2
