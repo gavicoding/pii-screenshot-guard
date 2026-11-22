@@ -166,8 +166,8 @@ class DLPScanner:
         self.rules = tuple(rules)
         self.ignore_regexes = [re.compile(p) for p in (ignore_patterns or ())]
 
-    def _is_ignored(self, value: str, line_text: str) -> bool:
-        return any(rx.search(value) or rx.search(line_text) for rx in self.ignore_regexes)
+    def _is_ignored(self, value: str) -> bool:
+        return any(rx.search(value) for rx in self.ignore_regexes)
 
     def scan_text(self, text: str, source: str = "<stdin>") -> list[Finding]:
         """Scan multiline text and return offset-ordered DLP findings."""
@@ -186,7 +186,7 @@ class DLPScanner:
 
                     if rule.validator and not rule.validator(matched_value):
                         continue
-                    if self._is_ignored(matched_value, line):
+                    if self._is_ignored(matched_value):
                         continue
                     # Prevent lower-severity rules from double-counting inside a higher-severity match
                     # (e.g., email inside a DB connection string).
