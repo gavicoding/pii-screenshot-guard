@@ -31,7 +31,7 @@ def _format_table(report: ScanReport) -> str:
 
 def _format_markdown(report: ScanReport) -> str:
     if not report.findings:
-        return "**CLEAN** — `0` DLP findings detected."
+        return "**CLEAN** - `0` DLP findings detected."
 
     lines = [
         f"### Zero-Trust DLP Report ({report.total_findings} finding(s))",

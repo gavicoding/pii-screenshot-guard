@@ -77,10 +77,10 @@ def scan_pr_diff(diff_text: str, scanner: DLPScanner | None = None) -> ScanRepor
 def format_pr_comment(report: ScanReport) -> str:
     """Render a zero-exposure Markdown summary suitable for GitHub PR comments."""
     if not report.findings:
-        return "### 🛡️ pii-screenshot-guard\n\n**CLEAN** — `0` DLP findings detected in this PR diff."
+        return "### 🛡️ pii-screenshot-guard\n\n**CLEAN** - `0` DLP findings detected in this PR diff."
 
     lines = [
-        f"### 🛡️ pii-screenshot-guard — {report.total_findings} DLP finding(s) detected",
+        f"### 🛡️ pii-screenshot-guard - {report.total_findings} DLP finding(s) detected",
         "",
         "| Severity | Rule | File & Line | Masked Preview |",
         "| :--- | :--- | :--- | :--- |",
