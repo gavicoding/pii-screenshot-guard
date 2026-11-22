@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>pii-screenshot-guard — Zero-Trust DLP &amp; GitHub PR Auditor</title>
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: #111a2e;
+      --border: #23314d;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #22c55e;
+      --red: #ef4444;
+      --amber: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at top, #132242 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 24px 72px; }
+    header { margin-bottom: 36px; border-bottom: 1px solid var(--border); padding-bottom: 28px; }
+    .pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    h1 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 40px); line-height: 1.15; }
+    .lead { color: var(--muted); font-size: 17px; max-width: 760px; margin: 0 0 20px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .btn-primary { background: var(--accent); color: #061224; }
+    .btn-secondary { border: 1px solid var(--border); color: var(--text); background: var(--card); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 28px 0; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 17px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    h2 { margin: 38px 0 14px; font-size: 22px; }
+    pre {
+      background: #060b16;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      color: #cbd5e1;
+    }
+    table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    th, td { padding: 11px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; }
+    th { background: #0d1527; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .sev { font-weight: 700; font-size: 12px; padding: 2px 8px; border-radius: 6px; }
+    .crit { background: rgba(239, 68, 68, 0.18); color: #fca5a5; }
+    .high { background: rgba(245, 158, 11, 0.18); color: #fcd34d; }
+    .med { background: rgba(56, 189, 248, 0.18); color: #7dd3fc; }
+    footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="pill">Zero-Trust DLP · Apache-2.0 · Zero Core Dependencies</span>
+      <h1>pii-screenshot-guard</h1>
+      <p class="lead">
+        A Python Zero-Trust Data Loss Prevention (DLP) CLI, library, and GitHub Pull Request API auditor that catches LGPD/GDPR PII, API keys, database passwords, and internal RFC 1918 IPs across logs, PR diffs, and screenshots before they leak.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/gavicoding/pii-screenshot-guard">View on GitHub</a>
+        <a class="btn btn-secondary" href="https://github.com/gavicoding/pii-screenshot-guard/releases">Releases (v1.0.0)</a>
+        <a class="btn btn-secondary" href="mailto:gavicoding@gmail.com">Support Contact</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Checksum-Verified PII</h3>
+        <p>Validates Brazilian CPF &amp; CNPJ (mod-11 check digits) and payment cards (Luhn) to cut false positives in production logs.</p>
+      </div>
+      <div class="card">
+        <h3>GitHub REST API PR Auditor</h3>
+        <p>Fetches unified PR diffs via the GitHub API, scans only newly added lines with exact file/line mapping, and posts masked reports.</p>
+      </div>
+      <div class="card">
+        <h3>Zero-Exposure Reporting</h3>
+        <p>Raw credentials are never echoed in terminal or PR comments — every match renders as a truncated safe preview (e.g., <code>AKI***LE</code>).</p>
+      </div>
+      <div class="card">
+        <h3>Screenshot Vision &amp; OCR</h3>
+        <p>Includes pluggable <code>TesseractOCRAnalyzer</code> (offline) and <code>GeminiVisionAnalyzer</code> for multimodal image auditing.</p>
+      </div>
+    </div>
+
+    <h2>Quick Start (CLI)</h2>
+    <pre><code>pip install git+https://github.com/gavicoding/pii-screenshot-guard.git
+
+# Scan files, directories, or piped diffs
+pii-guard scan ./logs --fail-on medium --format markdown
+git diff | pii-guard scan -
+
+# Redact sensitive spans deterministically
+pii-guard redact app.log -o app.sanitized.log</code></pre>
+
+    <h2>GitHub REST API Pull Request Integration</h2>
+    <p class="lead" style="font-size:15px">
+      Run <code>pii-guard github-pr</code> in CI or locally to audit Pull Request diffs directly against the GitHub REST API (<code>GET /repos/{owner}/{repo}/pulls/{pr}</code>) and optionally post a masked comment via <code>POST /repos/{owner}/{repo}/issues/{pr}/comments</code>.
+    </p>
+    <pre><code>export GITHUB_TOKEN="ghp_..."
+pii-guard github-pr --repo gavicoding/pii-screenshot-guard --pr 1 --format markdown --comment</code></pre>
+
+    <h2>Key Detection Rules</h2>
+    <table>
+      <thead>
+        <tr><th>Rule ID</th><th>Scope</th><th>Severity</th><th>Validation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>PRIVATE_KEY_BLOCK</code></td><td>Secrets</td><td><span class="sev crit">CRITICAL</span></td><td>PEM private key header</td></tr>
+        <tr><td><code>AWS_ACCESS_KEY</code></td><td>Secrets</td><td><span class="sev crit">CRITICAL</span></td><td><code>AKIA</code> / <code>ASIA</code> 20-char identifier</td></tr>
+        <tr><td><code>GITHUB_TOKEN</code></td><td>Secrets</td><td><span class="sev crit">CRITICAL</span></td><td>GitHub PAT / fine-grained token prefix</td></tr>
+        <tr><td><code>DB_CONNECTION_STRING</code></td><td>Secrets</td><td><span class="sev crit">CRITICAL</span></td><td>URI containing <code>user:pass@host</code></td></tr>
+        <tr><td><code>CREDIT_CARD</code></td><td>PCI / PII</td><td><span class="sev high">HIGH</span></td><td>Luhn checksum verified</td></tr>
+        <tr><td><code>BR_CPF</code></td><td>LGPD PII</td><td><span class="sev high">HIGH</span></td><td>Official mod-11 check digits</td></tr>
+        <tr><td><code>BR_CNPJ</code></td><td>LGPD Corp</td><td><span class="sev med">MEDIUM</span></td><td>Official mod-11 check digits</td></tr>
+        <tr><td><code>INTERNAL_IPV4</code></td><td>Infra Leak</td><td><span class="sev med">MEDIUM</span></td><td>Strict RFC 1918 private subnets</td></tr>
+      </tbody>
+    </table>
+
+    <footer>
+      Built by <a href="https://github.com/gavicoding">Gabriel Souza (@gavicoding)</a> · Apache License 2.0 · Support: <a href="mailto:gavicoding@gmail.com">gavicoding@gmail.com</a>
+    </footer>
+  </div>
+</body>
+</html>
