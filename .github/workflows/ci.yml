@@ -31,5 +31,5 @@ jobs:
 
       - name: Install package and run CLI self-check
         run: |
-          pip install --no-build-isolation --no-deps .
+          pip install --no-deps .
           printf "clean status log\n" | pii-guard scan -
