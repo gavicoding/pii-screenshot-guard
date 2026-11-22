@@ -3,11 +3,14 @@
 # 🛡️ pii-screenshot-guard
 
 [![CI](https://github.com/gavicoding/pii-screenshot-guard/actions/workflows/ci.yml/badge.svg)](https://github.com/gavicoding/pii-screenshot-guard/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-0A66C2.svg)](https://gavicoding.github.io/pii-screenshot-guard/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![Zero Core Deps](https://img.shields.io/badge/core_dependencies-0_(stdlib)-brightgreen.svg)](pyproject.toml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
 
-A **Zero-Trust Data Loss Prevention (DLP)** CLI and Python library to detect **LGPD / GDPR PII**, **hardcoded API keys & tokens**, **database connection strings**, and **internal RFC 1918 network IPs** across logs, support tickets, PR diffs, and screenshots before they leave your environment.
+A **Zero-Trust Data Loss Prevention (DLP)** CLI, Python library, and **GitHub PR API Auditor** to detect **LGPD / GDPR PII**, **hardcoded API keys & tokens**, **database connection strings**, and **internal RFC 1918 network IPs** across logs, support tickets, PR diffs, and screenshots before they leave your environment.
+
+🌐 **Documentation:** [https://gavicoding.github.io/pii-screenshot-guard/](https://gavicoding.github.io/pii-screenshot-guard/)
 
 ---
 
@@ -57,6 +60,10 @@ git diff | pii-guard scan - --format table
 
 # Redact sensitive values into a sanitized file
 pii-guard redact app.log -o app.sanitized.log
+
+# Audit added lines of a GitHub Pull Request via REST API (and optionally comment)
+export GITHUB_TOKEN="<your_github_token>"
+pii-guard github-pr --repo gavicoding/pii-screenshot-guard --pr 1 --format markdown --comment
 ```
 
 ### Example Output

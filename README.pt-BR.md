@@ -2,7 +2,9 @@
 
 # 🛡️ pii-screenshot-guard
 
-CLI e biblioteca Python de **Prevenção contra Vazamento de Dados (Zero-Trust DLP)** para detectar **dados pessoais (LGPD/GDPR)**, **chaves de API/tokens**, **strings de conexão com senha** e **IPs internos (RFC 1918)** em logs, chamados, diffs e capturas de tela antes do compartilhamento.
+CLI, biblioteca Python e **Auditor de Pull Requests via API do GitHub** com foco em **Prevenção contra Vazamento de Dados (Zero-Trust DLP)** para detectar **dados pessoais (LGPD/GDPR)**, **chaves de API/tokens**, **strings de conexão com senha** e **IPs internos (RFC 1918)** em logs, chamados, diffs de PR e capturas de tela antes do compartilhamento.
+
+🌐 **Documentação online:** [https://gavicoding.github.io/pii-screenshot-guard/](https://gavicoding.github.io/pii-screenshot-guard/)
 
 ---
 
@@ -26,6 +28,10 @@ pii-guard scan ./logs --fail-on medium --format markdown
 
 # Redigir (mascarar) arquivo sensível
 pii-guard redact app.log -o app.sanitized.log
+
+# Auditar linhas adicionadas de um Pull Request via API REST do GitHub
+export GITHUB_TOKEN="<seu_token_github>"
+pii-guard github-pr --repo gavicoding/pii-screenshot-guard --pr 1 --format markdown
 ```
 
 ## Testes
