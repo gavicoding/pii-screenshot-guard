@@ -20,7 +20,7 @@ Sharing terminal logs, screenshots, or config snippets in support tickets, Slack
 
 - **Zero Core Dependencies:** Runs out of the box on Python 3.10+ using pure standard library modules.
 - **Checksum-Verified PII Detection:** Validates Brazilian **CPF** & **CNPJ** (mod-11 check digits) and **Payment Cards** (Luhn algorithm) to dramatically cut false positives.
-- **Zero-Exposure Reporting:** Reports always print **masked previews** (e.g., `AKI***LE`) — raw secrets are never echoed back into CI logs.
+- **Zero-Exposure Reporting:** Reports always print **masked previews** (e.g., `AKI***LE`) - raw secrets are never echoed back into CI logs.
 - **CI / Pre-Commit Ready:** Supports `--fail-on low|medium|high|critical`, `--format table|markdown|json`, stdin piping (`-`), and deterministic redaction (`redact`).
 - **Extensible Image / Screenshot Auditing:** Includes pluggable `TesseractOCRAnalyzer` (offline OCR) and `GeminiVisionAnalyzer` (multimodal DLP gate via `GEMINI_API_KEY`).
 
@@ -124,4 +124,4 @@ docker run --rm -i pii-screenshot-guard scan - < sample.log
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
+Apache License 2.0 - see [LICENSE](LICENSE).
