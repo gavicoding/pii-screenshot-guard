@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pii-screenshot-guard"
+version = "1.0.0"
+description = "Zero-Trust DLP CLI & library to detect LGPD/GDPR PII, credentials, API keys & internal IPs in logs, tickets, and screenshots before sharing."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [{ name = "Gabriel Souza", email = "gavicoding@gmail.com" }]
+keywords = ["dlp", "lgpd", "gdpr", "pii", "security", "secret-scanning", "cli", "privacy"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+]
+dependencies = []
+
+[project.scripts]
+pii-guard = "pii_guard.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
