@@ -14,6 +14,20 @@ A **Zero-Trust Data Loss Prevention (DLP)** CLI, Python library, and **GitHub PR
 
 ---
 
+## In plain words
+
+Pasting a log into a ticket, sharing a screenshot in chat or pushing a config file to GitHub is how most leaks happen: a customer's CPF, an internal server IP or an API key goes along with it.
+
+This tool checks the text (or the image) **before** you share it and masks what should not leave.
+
+**What you gain**
+
+- **Leaks stopped before they happen:** run it in CI and fail the pull request that tries to push a password or a CPF.
+- **Very few false alarms:** CPF and CNPJ are validated by their check digits and cards by the Luhn algorithm, so any random 11-digit number is not treated as a CPF.
+- **The report does not leak either:** results only show a masked preview (e.g. `529***25`).
+
+---
+
 ## Why Use It?
 
 Sharing terminal logs, screenshots, or config snippets in support tickets, Slack/Teams, or social posts is one of the fastest ways internal IPs, customer CPFs, and API tokens leak. `pii-screenshot-guard` gives developers and IT teams:
