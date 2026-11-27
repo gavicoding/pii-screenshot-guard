@@ -69,6 +69,8 @@ export GITHUB_TOKEN="<seu_token_github>"
 pii-guard github-pr --repo gavicoding/pii-screenshot-guard --pr 1 --format markdown --comment
 ```
 
+Códigos de saída: `0` nada encontrado (abaixo do `--fail-on`), `1` achado com gravidade igual ou acima do `--fail-on`, `2` caminho inexistente ou arquivo que não pôde ser lido.
+
 ### Exemplo de resultado
 
 ```text

@@ -80,6 +80,8 @@ export GITHUB_TOKEN="<your_github_token>"
 pii-guard github-pr --repo gavicoding/pii-screenshot-guard --pr 1 --format markdown --comment
 ```
 
+Exit codes: `0` clean (below `--fail-on`), `1` findings at or above `--fail-on`, `2` a path does not exist or a file cannot be read.
+
 ### Example Output
 
 ```text

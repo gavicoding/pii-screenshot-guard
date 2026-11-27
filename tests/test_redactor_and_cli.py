@@ -42,6 +42,24 @@ class TestRedactorAndCLI(unittest.TestCase):
                 rc_ok = main(["scan", str(sample_file), "--fail-on", "critical"])
             self.assertEqual(rc_ok, 0)
 
+    def test_cli_scan_missing_path_is_an_error_not_clean(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            missing = str(Path(tmp) / "nao-existe.log")
+            out_buf, err_buf = io.StringIO(), io.StringIO()
+            with contextlib.redirect_stdout(out_buf), contextlib.redirect_stderr(err_buf):
+                rc = main(["scan", missing])
+            self.assertEqual(rc, 2)
+            self.assertNotIn("CLEAN", out_buf.getvalue())
+            self.assertIn("path not found", err_buf.getvalue())
+
+    def test_cli_redact_missing_file_is_an_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            err_buf = io.StringIO()
+            with contextlib.redirect_stderr(err_buf):
+                rc = main(["redact", str(Path(tmp) / "nao-existe.txt")])
+            self.assertEqual(rc, 2)
+            self.assertIn("cannot read", err_buf.getvalue())
+
     def test_cli_redact_command(self):
         with tempfile.TemporaryDirectory() as tmp:
             src = Path(tmp) / "raw.txt"

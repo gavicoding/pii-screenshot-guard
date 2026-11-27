@@ -126,11 +126,21 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _missing_paths(paths: Sequence[str]) -> list[str]:
+    return [p for p in paths if p != "-" and not Path(p).exists()]
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
     if args.command == "scan":
+        # A typo in a path must not look like a clean scan (exit 0) in a CI gate.
+        missing = _missing_paths(args.paths)
+        if missing:
+            for item in missing:
+                print(f"error: path not found: {item}", file=sys.stderr)
+            return 2
         scanner = DLPScanner(ignore_patterns=args.ignore)
         report = ScanReport()
         file_paths: list[str] = []
@@ -154,7 +164,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "redact":
         source_path = Path(args.file)
-        text = source_path.read_text(encoding="utf-8", errors="replace")
+        try:
+            text = source_path.read_text(encoding="utf-8", errors="replace")
+        except OSError as exc:
+            print(f"error: cannot read {source_path}: {exc.strerror or exc}", file=sys.stderr)
+            return 2
         scanner = DLPScanner()
         findings = scanner.scan_text(text, source=str(source_path))
         redacted = redact_text(text, findings=findings)
